@@ -16,10 +16,10 @@ A continuación se presenta el listado de autores y su respectivo correo electro
 
 | Organización   | Nombre del Miembro | Correo electronico | 
 |----------|-------------|-------------|
-| PUJ-Bogota |  Juan Sebastián Pineda Molina | juanspineda@javeriana.edu.co|
-| PUJ-Bogota  |  Camilo Ernesto Cano Ortega  | c-cano@javeriana.edu.co |
-| PUJ-Bogota  |  Daniel Latorre   | @javeriana.edu.co| 
-| PUJ-Bogota  |  Cesar Ramirez   | @javeriana.edu.co|
+| PUJ-Bogota | Sebastián Pineda| juanspineda@javeriana.edu.co|
+| PUJ-Bogota  |  Camilo Cano | c-cano@javeriana.edu.co |
+| PUJ-Bogota  |  Daniel Latorre   | latorreldaniel@javeriana.edu.co| 
+| PUJ-Bogota  |  Cesar Ramirez   | ce-ramirez@javeriana.edu.co|
 
 ## Análisis exploratorio
 
