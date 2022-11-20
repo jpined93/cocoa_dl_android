@@ -1,6 +1,8 @@
 # NLP_2022_3
-# Titulo del proyecto:
->Introducción
+# Titulo del proyecto: Clasificador de afinidad en discursos de la Segunda Guerra mundial
+>La Segunda Guerra Mundial fue uno de los grandes hitos de la historia geopolítica del siglo XX, conflicto que involucró prácticamente a todas las partes del mundo durante los años 39- 45. Las principales luchas se dieron entre las potencias del Eje (Alemania, Italia y Japón) y los Aliados (Francia, Gran Bretaña, Estados Unidos, la Unión Soviética y, en menor medida, China), y muchas de estas luchas fueron determinadas o impulsadas por discursos emblemáticos entre todas las partes involucradas.
+El conjunto de datos está compuesto por 3521 discursos de la segunda guerra mundial, traducidos al inglés, obtenidos de fuentes abiertas, se encuentran acompañados del Autor, Fecha de alocución, facción a la que pertenece y país.
+
 
 ## Tabla de Contenidos
 * [Autores](#autores)
