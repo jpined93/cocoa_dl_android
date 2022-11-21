@@ -26,6 +26,8 @@ A continuación se presenta el listado de autores y su respectivo correo electro
 
 ## Descripción de la solución
 
+## Resultados.
+
 ## Requerimientos
 
 ### Librerias Empleadas 
