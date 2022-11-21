@@ -460,10 +460,7 @@ app.layout = html.Div([
             dbc.Row([
                 dbc.Col([
                     mygraph
-                ], width=3),
-                dbc.Col([
-                    drawFigure(fig2) 
-                ], width=3),
+                ], width=6),
                 dbc.Col([
                     Log_Odds_Plot #drawFigure(fig4) 
                 ], width=6),
