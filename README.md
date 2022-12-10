@@ -11,6 +11,9 @@
 
 # Installation
 create virtual enviroment python -m venv C:\Users\Lobo_\Desktop\Cocoa_DL\cocoa_dl_android\FlaskWebService\venv
-Activate virtual enviroment venv/Scripts/activate
-on Virtual enviroment run py -m pip install -r requirements.txt
+if not activate, allow scripts run with following command
+Set-ExecutionPolicy Unrestricted -Scope Process
+Activate virtual enviroment from FlaskWebService folder venv/Scripts/activate
+Activate Flask app enviroment $env:FLASK_APP ="C:\Users\Lobo_\Desktop\Cocoa_DL\cocoa_dl_android\FlaskWebService\src\app.py"
+on Virtual enviroment run py -m pip install -r requirements.txt if not already installed
 
