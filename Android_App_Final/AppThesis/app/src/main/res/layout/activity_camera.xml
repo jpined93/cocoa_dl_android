@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.CameraActivity">
+
+    <LinearLayout
+        android:id="@+id/preview"
+        android:layout_width="408dp"
+        android:layout_height="225dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/buttonGallery"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.096" />
+
+    <LinearLayout
+        android:layout_width="410dp"
+        android:layout_height="290dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/preview"
+        app:layout_constraintVertical_bias="0.099">
+
+
+        <EditText
+            android:id="@+id/txtnameImage"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:hint="Nombre Imagen"></EditText>
+        <TextView
+            android:id="@+id/txtDiagnostico"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:drawableStart="@drawable/baseline_sick_24"
+            android:hint="Diagnostico"></TextView>
+        <TextView
+            android:id="@+id/txtFecha"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:drawableStart="@drawable/baseline_punch_clock_24"
+            android:hint="Fecha"></TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            >
+        <TextView
+            android:id="@+id/txtLatitud"
+            android:layout_width="180dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:drawableStart="@drawable/baseline_map_24"
+            android:hint="Latitud"></TextView>
+
+            <TextView
+                android:id="@+id/txtLongitud"
+                android:layout_width="180dp"
+                android:layout_height="40dp"
+                android:hint="Longitud"></TextView>
+
+        </LinearLayout>
+        <EditText
+            android:id="@+id/txtNotas"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginLeft="24dp"
+            android:drawableStart="@drawable/baseline_note_add_24"
+            android:hint="Notas"></EditText>
+        <TextView
+            android:id="@+id/txtUbicacion"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:drawableStart="@drawable/baseline_punch_clock_24"
+            android:hint="Ubicación"></TextView>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonGallery"
+        android:layout_width="130dp"
+        android:layout_height="55dp"
+        android:backgroundTint="@color/purple_600"
+        android:text="@string/pick_from_gallery"
+        app:icon="@drawable/baseline_image_24"
+        app:iconGravity="textStart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.958"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/buttonSave"
+        android:layout_width="130dp"
+        android:layout_height="55dp"
+        android:onClick="Registrar"
+        android:backgroundTint="@color/purple_600"
+        android:text="@string/save_button_name"
+        app:icon="@drawable/baseline_check_circle_outline_24"
+        app:iconGravity="textStart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/preview"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/buttonGallery"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.958" />
+
+    <Button
+        android:id="@+id/buttonCamera"
+        android:layout_width="130dp"
+        android:layout_height="55dp"
+        android:backgroundTint="@color/purple_600"
+        android:text="@string/camara_button_name"
+        app:icon="@drawable/baseline_photo_camera_24"
+        app:iconGravity="textStart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/preview"
+        app:layout_constraintHorizontal_bias="0.078"
+        app:layout_constraintStart_toEndOf="@+id/buttonGallery"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.958" />
+</androidx.constraintlayout.widget.ConstraintLayout>

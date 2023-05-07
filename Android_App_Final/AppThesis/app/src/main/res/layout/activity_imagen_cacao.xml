@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:orientation="vertical">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+        <ImageView
+            android:id="@+id/Image_Flag"
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:rotation="90"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:src="@mipmap/ic_launcher"></ImageView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="50dp"
+        android:clickable="false"
+        android:descendantFocusability="blocksDescendants"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/txtNameImageI"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:text="Name Image"
+            android:textSize="14dp"
+            android:textStyle="bold"></TextView>
+        <TextView
+            android:id="@+id/txtFechaI"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:text="Fecha Foto"
+            android:textSize="14dp"></TextView>
+        <TextView
+            android:id="@+id/txtDiagnosticoI"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:text="Diagnostico"
+            android:textSize="14dp"></TextView>
+    </LinearLayout>
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/txtNotasI"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:text="Notas"
+            android:textSize="14dp"></TextView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnServicio"
+                android:layout_width="130dp"
+                android:layout_marginLeft="10dp"
+                android:backgroundTint="@color/purple_600"
+                android:layout_height="55dp"
+                android:textColor="@color/white"
+                android:text="Evalua Foto" />
+            <Button
+                android:id="@+id/btnActualizar"
+                android:layout_width="130dp"
+                android:layout_height="55dp"
+                android:textColor="@color/white"
+                android:onClick="actualizar"
+                android:backgroundTint="@color/purple_600"
+                android:text="Actualizar" />
+
+            <Button
+                android:id="@+id/btnInvestigacion"
+                android:layout_width="130dp"
+                android:layout_height="55dp"
+                android:backgroundTint="@color/purple_600"
+                android:text="Investigar"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/map1"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="400dp" />
+    </LinearLayout>
+
+</LinearLayout>
