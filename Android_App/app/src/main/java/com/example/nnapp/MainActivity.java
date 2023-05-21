@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 byteArrayBitmapStream);
         byte[] b = byteArrayBitmapStream.toByteArray();
         encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+        Log.d("image_string",encodedImage);
         return encodedImage;
     }
 

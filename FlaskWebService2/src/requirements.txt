@@ -13,3 +13,4 @@ Werkzeug~=2.2.2
 pip~=22.3
 tensorflow
 Pillow
+rembg
