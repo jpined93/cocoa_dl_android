@@ -36,6 +36,7 @@ import java.util.Map;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -60,7 +61,8 @@ public class MainActivity extends AppCompatActivity {
                 String json_string=getStringFromBitmap(image);
                 System.out.println("Image transform to text");
                 //System.out.println(json_string);
-                postDataUsingVolley(json_string,"job");
+                //postDataUsingVolley(json_string,"job");
+                serviceHealthCheck("job");
 
             }else{
                 Uri dat = data.getData();
@@ -76,7 +78,8 @@ public class MainActivity extends AppCompatActivity {
                 String json_string=getStringFromBitmap(image);
                 System.out.println("Image transform to text");
                 //System.out.println(json_string);
-                postDataUsingVolley(json_string,"job");
+                //postDataUsingVolley(json_string,"job");
+                serviceHealthCheck("job");
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -94,9 +97,36 @@ public class MainActivity extends AppCompatActivity {
         return encodedImage;
     }
 
+    private  void serviceHealthCheck(String job) {
+        // url to post our data
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://34.125.196.167/uImg";//+"?img="+"\"" + name + "\"";
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        Log.d("image_string","Response is: " + response.substring(0,500));
+                        Toast.makeText(MainActivity.this, "Data added to API", Toast.LENGTH_SHORT).show();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("image_string","Failed with error"+error);
+                Toast.makeText(MainActivity.this, "Failed with error"+error.networkResponse.statusCode, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+// Add the request to the RequestQueue.
+        queue.add(stringRequest);
+
+    }
+
     private void postDataUsingVolley(String name, String job) {
         // url to post our data
-        String url = "http://10.0.2.2:5000/uImg";//+"?img="+"\"" + name + "\"";
+        String url = "http://34.125.196.167/uImg";//+"?img="+"\"" + name + "\"";
 
         // creating a new variable for our request queue
         RequestQueue queue = Volley.newRequestQueue(MainActivity.this);

@@ -10,7 +10,8 @@ setuptools~=59.8.0
 py~=1.11.0
 Cython~=0.29.28
 Werkzeug~=2.2.2
-pip~=22.3
 tensorflow
 Pillow
 rembg
+faker
+coverage
