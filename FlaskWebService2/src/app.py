@@ -52,6 +52,7 @@ def val_img():
                 im_file = BytesIO(im_bytes)  # convert image to file-like object
                 img = Image.open(im_file)   # img is now PIL Image object
                 img=remove(img)
+                img = img.convert(mode='L')
                 img = img.convert(mode='RGB')
                 img = img.resize((300, 300))
 
@@ -62,7 +63,7 @@ def val_img():
             
             try:
                 x = tf.keras.utils.img_to_array(img)
-                # x = np.true_divide(x, 255)
+                x = np.true_divide(x, 255)
                 x = np.expand_dims(x, axis=0)
                 print ("preprocess compleated")
             except Exception as e:
