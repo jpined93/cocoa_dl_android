@@ -5,8 +5,8 @@
 * [Authors](#Authors)
 * [DataSet](#DataSet)
 * [Modelation](#Modelation)
-* [Web Service](#Web_Service)
-* [Mobile App](#Mobile_App)
+* [Web Service](#Web-Service)
+* [Mobile App](#Mobile-App)
 
 ## Authors
 | Organization   | Name | Email | 
