@@ -1,12 +1,26 @@
 # Cocoa_DL
-# Titulo del proyecto: Clasificador de enfermedades en la fruta del cacao 
+# Titulo del proyecto: Desarrollo de una aplicación móvil para la detección de enfermedades en los frutos de cacao
 
-## Tabla de Contenidos
-* [Autores](#autores)
-* [Análisis exploratorio](#análisis-exploratorio)
-* [Descripción de la solución](#descripción-de-la-solución)
-* [Requerimientos](#requerimientos)
-* [Instalacion](#instalación)
+## Table of contents
+
+* [Modelation]
+* [Web Service]
+* [Mobile App]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Installation
