@@ -4,9 +4,17 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.appthesis.services.AdminSQLiteOpenHelper;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,6 +25,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import androidx.annotation.NonNull;
 
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -24,6 +34,11 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.example.appthesis.databinding.ActivityImagenCacaoBinding;
 import com.example.appthesis.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 
 import lombok.val;
 
@@ -49,6 +64,9 @@ public class ImagenCacao extends FragmentActivity implements OnMapReadyCallback 
 
         binding.btnInvestigacion.setOnClickListener(view -> {
             Investiga();
+        });
+        binding.btnServicio.setOnClickListener(v ->{
+            Evaluar();
         });
 
 
@@ -86,6 +104,61 @@ public class ImagenCacao extends FragmentActivity implements OnMapReadyCallback 
         }
 
     }
+    public void Evaluar(){
+        Bitmap imageBitmap;
+        imageBitmap=((BitmapDrawable)binding.ImageFlag.getDrawable()).getBitmap();
+        int dimension = Math.min(imageBitmap.getWidth(), imageBitmap.getHeight());
+        imageBitmap = Bitmap.createScaledBitmap(imageBitmap, 300, 300, false);
+        imageBitmap = ThumbnailUtils.extractThumbnail(imageBitmap, dimension, dimension);
+        String json_string=getStringFromBitmap(imageBitmap);
+        postDataUsingVolley(json_string,"job");
+    }
+
+
+    private void postDataUsingVolley(String imagen, String job) {
+        String url = "http://34.125.196.167:5000/uImg";//+"?img="+"\"" + name + "\"";
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest request = new StringRequest(Request.Method.POST, url, new com.android.volley.Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(ImagenCacao.this, "Data added to API", Toast.LENGTH_SHORT).show();
+                try {
+                    JSONObject respObj = new JSONObject(response);
+                    String name = respObj.getString("img");
+                    System.out.println(name);
+                    binding.txtDiagnosticoI.setText(name);
+                } catch (JSONException e) {
+                    e.printStackTrace();}}
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ImagenCacao.this, "Fail to get response = " + error, Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                System.out.println(imagen.getBytes());
+                return imagen.getBytes();
+            }
+        };
+        queue.add(request);
+    }
+
+
+
+    private String getStringFromBitmap(Bitmap bitmapPicture) {
+        final int COMPRESSION_QUALITY = 100;
+        String encodedImage;
+        ByteArrayOutputStream byteArrayBitmapStream = new ByteArrayOutputStream();
+        bitmapPicture.compress(Bitmap.CompressFormat.PNG, COMPRESSION_QUALITY,
+                byteArrayBitmapStream);
+        byte[] b = byteArrayBitmapStream.toByteArray();
+        encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+        Log.d("image_string",encodedImage);
+        return encodedImage;
+    }
+
+
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
@@ -98,14 +171,14 @@ public class ImagenCacao extends FragmentActivity implements OnMapReadyCallback 
     }
     public void actualizar(View view) {
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administracion", null, 1);
-        admin.updateData("Sano", String.valueOf(i));
+        String result;
+        result= binding.txtDiagnosticoI.getText().toString();
+        admin.updateData(result, String.valueOf(i));
         Toast.makeText(this, "Actualización Exitosa", Toast.LENGTH_SHORT).show();
-        binding.txtDiagnosticoI.setText("Sano");
     }
 
     public void Investiga() {
         String Diagnostico = binding.txtDiagnosticoI.getText().toString();
-
         String webpage;
         if (Diagnostico.equals("Sano")){webpage="";}
         else if (Diagnostico.equals("Monoliosis")){webpage="https://www.agrosavia.co/media/11540/69317.pdf";}

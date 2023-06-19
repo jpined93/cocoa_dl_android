@@ -38,6 +38,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.appthesis.BuildConfig;
 import com.example.appthesis.databinding.ActivityCameraBinding;
 import com.example.appthesis.services.AdminSQLiteOpenHelper;
@@ -50,6 +56,9 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.Date;
 import java.util.Locale;
@@ -59,16 +68,6 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 @AndroidEntryPoint
 public class CameraActivity extends BaseActivity {
@@ -88,6 +87,7 @@ public class CameraActivity extends BaseActivity {
     FusedLocationProviderClient fusedLocationProviderClient;
     Location currentLocation;
     String mCurrentPhotoPath;
+    Bitmap imageBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +119,7 @@ public class CameraActivity extends BaseActivity {
            updateGPS();
 
            binding.buttonGallery.setOnClickListener(v ->{
-               binding.txtDiagnostico.setText("Monoliosis");
+               Evaluar();
            });
     }
 
@@ -217,10 +217,9 @@ public class CameraActivity extends BaseActivity {
             binding.txtDiagnostico.setText("Diagnóstico Pendiente");
             binding.preview.removeAllViews();
             ImageView imageView = new ImageView(CameraActivity.this);
-
             imageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
             Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imageBitmap = (Bitmap) extras.get("data");
             imageView.setImageBitmap(imageBitmap);
             Image1 = imageView;
             imageView.setRotation(90f);
@@ -231,14 +230,6 @@ public class CameraActivity extends BaseActivity {
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             /* String timeStamp = getDateInstance().format(new Date());*/
             binding.txtFecha.setText(timeStamp);
-
-            Bitmap image = (Bitmap) data.getExtras().get("data");
-            int dimension = Math.min(image.getWidth(), image.getHeight());
-            image = ThumbnailUtils.extractThumbnail(image, dimension, dimension);
-            String json_string=getStringFromBitmap(image);
-            System.out.println("Image transformed to text");
-            postDataUsingVolley(json_string,"job");
-
         }
     }
     public void Registrar(View view) {
@@ -261,14 +252,42 @@ public class CameraActivity extends BaseActivity {
             Toast.makeText(this, "Debes llenar todos los campos", Toast.LENGTH_SHORT).show();
         }
     }
-
-    public static byte[] imageViewToByte(ImageView image) {
-        Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
-        return byteArray;
+    public void Evaluar(){
+        int dimension = Math.min(imageBitmap.getWidth(), imageBitmap.getHeight());
+        imageBitmap = Bitmap.createScaledBitmap(imageBitmap, 300, 300, false);
+        imageBitmap = ThumbnailUtils.extractThumbnail(imageBitmap, dimension, dimension);
+        String json_string=getStringFromBitmap(imageBitmap);
+        postDataUsingVolley(json_string,"job");
     }
+    private void postDataUsingVolley(String imagen, String job) {
+        String url = "http://34.125.196.167:5000/uImg";//+"?img="+"\"" + name + "\"";
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest request = new StringRequest(Request.Method.POST, url, new com.android.volley.Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(CameraActivity.this, "Data added to API", Toast.LENGTH_SHORT).show();
+                try {
+                    JSONObject respObj = new JSONObject(response);
+                    String name = respObj.getString("img");
+                    System.out.println(name);
+                    binding.txtDiagnostico.setText(name);
+                } catch (JSONException e) {
+                    e.printStackTrace();}}
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(CameraActivity.this, "Fail to get response = " + error, Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                System.out.println(imagen.getBytes());
+                return imagen.getBytes();
+            }
+        };
+        queue.add(request);
+    }
+
 
 
     private String getStringFromBitmap(Bitmap bitmapPicture) {
@@ -279,82 +298,16 @@ public class CameraActivity extends BaseActivity {
                 byteArrayBitmapStream);
         byte[] b = byteArrayBitmapStream.toByteArray();
         encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+        Log.d("image_string",encodedImage);
         return encodedImage;
     }
 
-    private void postDataUsingVolley(String name, String job) {
-        // url to post our data
-        String url = "http://10.0.2.2:5000/uImg";//+"?img="+"\"" + name + "\"";
-
-        // creating a new variable for our request queue
-        RequestQueue queue = Volley.newRequestQueue(CameraActivity.this);
-
-        // on below line we are calling a string
-        // request method to post the data to our API
-        // in this we are calling a post method.
-        StringRequest request = new StringRequest(Request.Method.POST, url, new com.android.volley.Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                // inside on response method we are
-                // hiding our progress bar
-                // and setting data to edit text as empty
-
-                // on below line we are displaying a success toast message.
-                Toast.makeText(CameraActivity.this, "Data added to API", Toast.LENGTH_SHORT).show();
-
-                try {
-                    // on below line we are parsing the response
-                    // to json object to extract data from it.
-                    JSONObject respObj = new JSONObject(response);
-
-                    // below are the strings which we
-                    // extract from our json object.
-                    String name = respObj.getString("img");
-
-                    // on below line we are setting this string s to our text view.
-                    System.out.println(name);
-                    binding.txtDiagnostico.setText("Classified as "+name);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(CameraActivity.this, "Fail to get response = " + error, Toast.LENGTH_SHORT).show();
-            }
-
-        }) {
-            /*@Override
-            protected Map<String, String> getParams() {
-                // below line we are creating a map for
-                // storing our values in key and value pair.
-                Map<String, String> params = new HashMap<String, String>();
-
-                // on below line we are passing our key
-                // and value pair to our parameters.
-                params.put("name", name);
-                params.put("job", job);
-
-                // at last we are
-                // returning our params.
-                System.out.println(params);
-                return params;
-            }*/
-
-            @Override
-            public byte[] getBody() throws AuthFailureError {
-                System.out.println(name.getBytes());
-                return name.getBytes();
-            }
-        };
-        // below line is to make
-        // a json object request.
-
-        queue.add(request);
+    public static byte[] imageViewToByte(ImageView image) {
+        Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        return byteArray;
     }
-
-
-
 }
 
