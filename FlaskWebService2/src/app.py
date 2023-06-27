@@ -92,7 +92,7 @@ def val_img():
                 elif class_pred==3:
                     class_pred="Monoliosis"
 
-                message=f"{class_pred}"
+                message=f"{class_pred} : probs {preds}"
                 return jsonify({"img":message})
             except Exception as e:
                 print(f"Exception making predictions img: {e}" )
